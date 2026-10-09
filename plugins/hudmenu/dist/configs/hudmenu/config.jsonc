@@ -1,0 +1,52 @@
+{
+	// Panorama layout of the menu entity, as the game's custom_hud_layout expects it.
+	// The workshop addon below contains panorama/layout/custom_game/menu_ui.vxml.
+	"layout_path": "panorama/layout/custom_game/menu_ui.xml",
+
+	// Workshop addon with the client-side Panorama assets (menu_ui.vxml + ui.css).
+	"workshop_addon_id": "3810810950",
+
+	// Append workshop_addon_id to the s2sdk convar s2_extra_addons at plugin start.
+	"mount_workshop_addon": true,
+
+	// Menu type a player without a saved choice ('!menu') gets: "hud" (Panorama, the default),
+	// "wasd" (the CENTER_WASD port), "button" (s2sdk built-in), "centerhtml" or "chat".
+	// "hud"/"wasd" fall back to "button" while their backend is not registered.
+	"default_menu_type": "hud",
+
+	// The "wasd" menu type - a port of Pisex cs2-menus MenuType::CENTER_WASD. The keys mirror
+	// the Pisex core.cfg names; the values below are the production ones.
+	"wasd_menu": {
+		// Register the type (false: CENTER_WASD falls back to s2sdk's built-in "button").
+		"enabled": true,
+
+		// Source of the control images: 0 = the menu_url site (core.cfg MenuAddon 0), 1 = the
+		// mounted workshop addon (s2r://resource/menus/*.vsvg, core.cfg MenuAddon 1).
+		"menu_addon": 0,
+		// Buttons site used when menu_addon is 0 (core.cfg MenuURL).
+		"menu_url": "pisex.online/module/buttons",
+
+		// Delay between menu key presses in ms (core.cfg TimeoutInputMenu).
+		"input_timeout_ms": 200,
+
+		// Freeze the player's movement while the menu is open (core.cfg StopingUser).
+		"stop_player": false,
+
+		// Seconds the center panel is shown per send; Pisex re-sends every frame with 5.
+		"html_duration": 5,
+
+		// Menu sounds (core.cfg sound_type / sound_*): type 0 = off, 1 = sound event on the
+		// player, 2 = "play <sound>".
+		"sounds": {
+			"type": 0,
+			"move": "",
+			"back": "",
+			"next": "",
+			"select": "",
+			"exit": ""
+		}
+	},
+
+	// Verbose per-click/per-render logging.
+	"debug_log": false
+}

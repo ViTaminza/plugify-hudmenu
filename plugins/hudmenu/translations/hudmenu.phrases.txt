@@ -1,0 +1,227 @@
+"Phrases"
+{
+	// The four menu-type choice lines, copied from cs2-menus/translations/menus.phrases.txt
+	// (MenuMenusTitle / MenuMenusItem0..3) so the chooser reads exactly like the Pisex one.
+	"MenuMenusTitle"
+	{
+		"ru"		"Выберите тип меню"
+		"en"		"Choose menu type"
+	}
+
+	"MenuMenusItem0"
+	{
+		"ru"		"Чат меню"
+		"en"		"Chat Menu"
+	}
+
+	"MenuMenusItem1"
+	{
+		"ru"		"Чат + Центр меню"
+		"en"		"Chat + Center Menu"
+	}
+
+	"MenuMenusItem2"
+	{
+		"ru"		"WASD меню"
+		"en"		"WASD Menu"
+	}
+
+	"MenuMenusItem3"
+	{
+		"ru"		"Panorama меню"
+		"en"		"Panorama Menu"
+	}
+
+	// Confirmation line. Pisex re-opened the chooser after a pick; this port replies instead.
+	"MenuMenusSet"
+	{
+		"ru"		"Тип меню: %s"
+		"en"		"Menu type: %s"
+	}
+
+	// --- "wasd" (Pisex MenuType::CENTER_WASD) templates ---------------------------------
+	// Copied verbatim from the production copy ref/prod-27016/addons/translations/menus.phrases.txt.
+	// %s is the title / row text / menu URL (the _Web templates take the URL, see
+	// "wasd_menu".menu_url in config.jsonc); the same template is used for every language there.
+	"HtmlTitle"
+	{
+		"ru"		"<font color='yellow' class='fontSize-ml'>%s</font><br/>"
+		"en"		"<font color='yellow' class='fontSize-ml'>%s</font><br/>"
+	}
+
+	"HtmlButton"
+	{
+		"ru"		"%s"
+		"en"		"%s"
+	}
+
+	"HtmlButtonBlock"
+	{
+		"ru"		"<font class='fontSize-sm' color='gray'>%s</font>"
+		"en"		"<font class='fontSize-sm' color='gray'>%s</font>"
+	}
+
+	"HtmlButtonBR"
+	{
+		"ru"		"<br/>"
+		"en"		"<br/>"
+	}
+
+	// MenuAddon 1: images shipped by the mounted workshop addon (s2r://).
+	"HtmlEButtons"
+	{
+		"ru"		"<img src='s2r://resource/menus/e.vsvg' width='52' height='35' />"
+		"en"		"<img src='s2r://resource/menus/e.vsvg' width='52' height='35' />"
+	}
+
+	"HtmlE_PButtons"
+	{
+		"ru"		"<img src='s2r://resource/menus/e-p.vsvg' width='52' height='35' />"
+		"en"		"<img src='s2r://resource/menus/e-p.vsvg' width='52' height='35' />"
+	}
+
+	"HtmlWButtons"
+	{
+		"ru"		"<img src='s2r://resource/menus/w.vsvg' width='52' height='35' /> "
+		"en"		"<img src='s2r://resource/menus/w.vsvg' width='52' height='35' /> "
+	}
+
+	"HtmlW_PButtons"
+	{
+		"ru"		"<img src='s2r://resource/menus/w-p.vsvg' width='52' height='35' /> "
+		"en"		"<img src='s2r://resource/menus/w-p.vsvg' width='52' height='35' /> "
+	}
+
+	"HtmlSButtons"
+	{
+		"ru"		"<img src='s2r://resource/menus/s.vsvg' width='52' height='35' /> "
+		"en"		"<img src='s2r://resource/menus/s.vsvg' width='52' height='35' /> "
+	}
+
+	"HtmlS_PButtons"
+	{
+		"ru"		"<img src='s2r://resource/menus/s-p.vsvg' width='52' height='35' /> "
+		"en"		"<img src='s2r://resource/menus/s-p.vsvg' width='52' height='35' /> "
+	}
+
+	"HtmlAButtons"
+	{
+		"ru"		"<img src='s2r://resource/menus/a.vsvg' width='52' height='35' /> "
+		"en"		"<img src='s2r://resource/menus/a.vsvg' width='52' height='35' /> "
+	}
+
+	"HtmlA_PButtons"
+	{
+		"ru"		"<img src='s2r://resource/menus/a-p.vsvg' width='52' height='35' /> "
+		"en"		"<img src='s2r://resource/menus/a-p.vsvg' width='52' height='35' /> "
+	}
+
+	"HtmlDButtons"
+	{
+		"ru"		"<img src='s2r://resource/menus/d.vsvg' width='52' height='35' /> "
+		"en"		"<img src='s2r://resource/menus/d.vsvg' width='52' height='35' /> "
+	}
+
+	"HtmlD_PButtons"
+	{
+		"ru"		"<img src='s2r://resource/menus/d-p.vsvg' width='52' height='35' /> "
+		"en"		"<img src='s2r://resource/menus/d-p.vsvg' width='52' height='35' /> "
+	}
+
+	"HtmlFButtons"
+	{
+		"ru"		"<img src='s2r://resource/menus/f.vsvg' width='52' height='35' /> "
+		"en"		"<img src='s2r://resource/menus/f.vsvg' width='52' height='35' /> "
+	}
+
+	"HtmlSpaceButtons"
+	{
+		"ru"		"<img src='s2r://resource/menus/empty.vsvg' width='52' height='35' /> "
+		"en"		"<img src='s2r://resource/menus/empty.vsvg' width='52' height='35' /> "
+	}
+
+	"HtmlSpaceShortButtons"
+	{
+		"ru"		"<img src='s2r://resource/menus/empty_half.vsvg' width='52' height='35' /> "
+		"en"		"<img src='s2r://resource/menus/empty_half.vsvg' width='52' height='35' /> "
+	}
+
+	// MenuAddon 0 (the production setting): images served from <menu_url>.
+	"HtmlEButtons_Web"
+	{
+		"ru"		"<img src='https://%s/e.svg' width='52' height='35' />"
+		"en"		"<img src='https://%s/e.svg' width='52' height='35' />"
+	}
+
+	"HtmlE_PButtons_Web"
+	{
+		"ru"		"<img src='https://%s/e-p.svg' width='52' height='35' />"
+		"en"		"<img src='https://%s/e-p.svg' width='52' height='35' />"
+	}
+
+	"HtmlWButtons_Web"
+	{
+		"ru"		"<img src='https://%s/w.svg' width='52' height='35' /> "
+		"en"		"<img src='https://%s/w.svg' width='52' height='35' /> "
+	}
+
+	"HtmlW_PButtons_Web"
+	{
+		"ru"		"<img src='https://%s/w-p.svg' width='52' height='35' /> "
+		"en"		"<img src='https://%s/w-p.svg' width='52' height='35' /> "
+	}
+
+	"HtmlSButtons_Web"
+	{
+		"ru"		"<img src='https://%s/s.svg' width='52' height='35' /> "
+		"en"		"<img src='https://%s/s.svg' width='52' height='35' /> "
+	}
+
+	"HtmlS_PButtons_Web"
+	{
+		"ru"		"<img src='https://%s/s-p.svg' width='52' height='35' /> "
+		"en"		"<img src='https://%s/s-p.svg' width='52' height='35' /> "
+	}
+
+	"HtmlAButtons_Web"
+	{
+		"ru"		"<img src='https://%s/a.svg' width='52' height='35' /> "
+		"en"		"<img src='https://%s/a.svg' width='52' height='35' /> "
+	}
+
+	"HtmlA_PButtons_Web"
+	{
+		"ru"		"<img src='https://%s/a-p.svg' width='52' height='35' /> "
+		"en"		"<img src='https://%s/a-p.svg' width='52' height='35' /> "
+	}
+
+	"HtmlDButtons_Web"
+	{
+		"ru"		"<img src='https://%s/d.svg' width='52' height='35' /> "
+		"en"		"<img src='https://%s/d.svg' width='52' height='35' /> "
+	}
+
+	"HtmlD_PButtons_Web"
+	{
+		"ru"		"<img src='https://%s/d-p.svg' width='52' height='35' /> "
+		"en"		"<img src='https://%s/d-p.svg' width='52' height='35' /> "
+	}
+
+	"HtmlFButtons_Web"
+	{
+		"ru"		"<img src='https://%s/f.svg' width='52' height='35' /> "
+		"en"		"<img src='https://%s/f.svg' width='52' height='35' /> "
+	}
+
+	"HtmlSpaceButtons_Web"
+	{
+		"ru"		"<img src='https://%s/empty.svg' width='52' height='35' /> "
+		"en"		"<img src='https://%s/empty.svg' width='52' height='35' /> "
+	}
+
+	"HtmlSpaceShortButtons_Web"
+	{
+		"ru"		"<img src='https://%s/empty_half.svg' width='52' height='35' /> "
+		"en"		"<img src='https://%s/empty_half.svg' width='52' height='35' /> "
+	}
+}

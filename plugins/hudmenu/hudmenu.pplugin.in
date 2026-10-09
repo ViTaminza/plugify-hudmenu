@@ -1,0 +1,71 @@
+{
+	"$schema": "https://raw.githubusercontent.com/untrustedmodders/plugify/refs/heads/main/schemas/plugin.schema.json",
+	"version": "${HUDMENU_VERSION}",
+	"name": "hudmenu",
+	"description": "Registers two custom s2sdk menu types. 'hud': a Panorama on-screen menu with mouse clicks, rendered with the 'custom_hud_layout' entity (the same mechanism as Pisex cs2-menus MenuType::HUD_LAYOUT/3), usable by dead/spectating players; maps menu title/items/exit/back/pagination through the s2sdk menu accessors, hooks ISource2GameClients::ClientSvcUserMessage (polyhook) for CCSUsrMsg_CustomHudClicked (390) clicks and reports selections back to the s2sdk menu manager via SelectMenuItem/MenuNextPage/MenuPrevPage/CancelClientMenu. 'wasd': a port of Pisex cs2-menus MenuType::CENTER_WASD/2 (W/S cursor, A/D page, E select, R exit or back), rendering the production menus.phrases.txt Html* templates (title, rows with the E select image on the cursor row, W/S/A/D pressed-state control images, F/spacer images; images from the workshop addon or the configured site URL) into the center HUD, with Pisex's 200 ms key repeat, optional freeze (StopingUser) and menu sounds. The center HTML is re-sent every server frame with a 5 s alert duration exactly like Pisex's per-frame CTimer, which is flicker-free (s2sdk's built-in 'button' type only keeps the alert alive at 1.5 s intervals with a 2 s duration). 'wasd' needs the movement keys, so it is alive-players-only by nature. Appends workshop addon 3810810950 (the client-side Panorama assets) to s2_extra_addons. Also owns the per-player menu type choice like Pisex cs2-menus: the '!menu' (chat) and 'mm_menu' (console) commands open a Panorama type chooser, the choice is persisted in the permissions cookie 'Utils.MenuType' (int64, Pisex numbering 0=chat 1=centerhtml 2=wasd 3=hud) and exposed to other plugins through GetClientMenuType/SetClientMenuType (pisexcompat resolves every displayed menu with it). Adds the console commands 'hudmenu_test' (opens a 10-item test menu) and 'hudmenu_status'.",
+	"author": "Pisex, ported to Plugify",
+	"website": "https://github.com/untrustedmodders/plugify",
+	"license": "GPL-3.0",
+	"entry": "bin/hudmenu",
+	"platforms": [],
+	"language": "cpp",
+	"dependencies": [
+		{
+			"name": "s2sdk",
+			"constraints": ">=2.18.2"
+		},
+		{
+			"name": "polyhook",
+			"constraints": ">=2.5.2"
+		},
+		{
+			"name": "permissions",
+			"constraints": ">=1.3.1",
+			"optional": true
+		}
+	],
+	"methods": [
+		{
+			"name": "GetClientMenuType",
+			"funcName": "GetClientMenuType",
+			"group": "menu",
+			"description": "The s2sdk menu type name this player's menus should be rendered with: 'hud', 'wasd', 'button', 'centerhtml' or 'chat'. Returns the player's saved choice (permissions cookie 'Utils.MenuType', Pisex numbering 0=chat 1=centerhtml 2=wasd 3=hud, cached per slot and refreshed when the permissions user loads); when the player has no saved choice or the permissions user is not loaded yet, the server default from config.jsonc ('default_menu_type', 'hud' out of the box) is returned. 'hud' and 'wasd' are only returned when hudmenu registered the matching backend - otherwise 'button' is used. Slots without a connected, authorised human player also get the server default.",
+			"paramTypes": [
+				{
+					"name": "playerSlot",
+					"type": "int32",
+					"ref": false,
+					"description": "The client's player slot."
+				}
+			],
+			"retType": {
+				"type": "string",
+				"description": "One of 'hud', 'button', 'centerhtml' or 'chat'."
+			}
+		},
+		{
+			"name": "SetClientMenuType",
+			"funcName": "SetClientMenuType",
+			"group": "menu",
+			"description": "Saves the player's menu type choice (permissions cookie 'Utils.MenuType', int64 with the Pisex numbering) and updates the per-slot cache, so the next GetClientMenuType returns it immediately. Accepts 'hud', 'wasd', 'button', 'centerhtml' or 'chat' (case-insensitive; 'hud_layout'/'center_wasd'/'center' and the numeric Pisex values '0'..'3' also work). 'hud'/'wasd' are rejected when the matching hudmenu backend is not registered. When the permissions core does not know the user yet the choice is remembered and written as soon as the user loads. Returns false for invalid slots, bots/fake clients, unknown type names and cookie write failures.",
+			"paramTypes": [
+				{
+					"name": "playerSlot",
+					"type": "int32",
+					"ref": false,
+					"description": "The client's player slot."
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"ref": false,
+					"description": "'hud', 'button', 'centerhtml' or 'chat'."
+				}
+			],
+			"retType": {
+				"type": "bool",
+				"description": "True when the choice was accepted (and persisted once the user is loaded)."
+			}
+		}
+	]
+}
