@@ -37,8 +37,12 @@ add_library(hudmenu_bindings OBJECT "${CMAKE_CURRENT_SOURCE_DIR}/sdk/include/hud
 target_link_libraries(hudmenu_bindings PUBLIC plugify_sdk)
 target_compile_definitions(hudmenu_bindings PUBLIC _GLIBCXX_USE_CXX11_ABI=1)
 
-add_subdirectory(libs/plgdb)
-add_subdirectory(libs/pisexcompat)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/libs/plgdb")
+    add_subdirectory(libs/plgdb)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/libs/pisexcompat")
+    add_subdirectory(libs/pisexcompat)
+endif()
 
 
 # Every plugin directory with a CMakeLists.txt is built (plugins/<name>). A plugin may add test

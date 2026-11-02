@@ -4,11 +4,13 @@ Registers two custom s2sdk menu types. 'hud': a Panorama on-screen menu with mou
 
 Plugify port (fork) of **cs2-menus (HUD layout + WASD menu types)** by Pisex (Metamod (C++)).
 Original: https://github.com/Pisex/cs2-menus
-The code was rewritten for Plugify / s2sdk; behaviour follows the original.
+The code was rewritten for Plugify / s2sdk.
 
 ## Requirements
 - [Plugify](https://github.com/untrustedmodders/plugify) with [s2sdk](https://github.com/untrustedmodders/plugify-plugin-s2sdk)
-- Plugify dependencies: s2sdk, polyhook, permissions (optional)
+- Plugin version: 1.1.3
+- Plugify dependencies: s2sdk (>=2.18.2), polyhook (>=2.5.2), permissions (>=1.3.1, optional)
+- Self-contained s2sdk integration: uses s2sdk directly, without the pisexcompat library.
 
 ## Installation
 Download `hudmenu-1.1.3.zip` from Releases and extract it into `game/csgo/`.

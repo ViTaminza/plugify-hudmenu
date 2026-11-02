@@ -1055,6 +1055,21 @@ void HudMenuPlugin::OnHudDisplay(s2sdk::MenuId id, int32_t slot) {
 	if (!m_gameReady || slot < 0 || slot >= kMaxSlots) {
 		return;
 	}
+	// This backend renders kMaxItemPanels rows per page, so a menu paged wider (or unpaged: 0) is
+	// clamped to what the layout can show, exactly like the "wasd" backend does; otherwise the
+	// manager would advance by the menu's own page size and the rows past the sixth of a page
+	// could never be reached. The menu manager's lock is recursive, so the getters/setter are
+	// safe here.
+	if (__s2sdk_GetMenuPagination && __s2sdk_SetMenuPagination && __s2sdk_GetMenuItemsCount) {
+		try {
+			const int32_t perPage = s2sdk::GetMenuPagination(id);
+			const int32_t items = s2sdk::GetMenuItemsCount(id);
+			if (perPage <= 0 ? items > hudmenu::kMaxItemPanels : perPage > hudmenu::kMaxItemPanels) {
+				s2sdk::SetMenuPagination(id, hudmenu::kMaxItemPanels);
+			}
+		} catch (...) {
+		}
+	}
 	m_displayed[slot] = id;
 	std::string error;
 	if (!m_layout.Ensure(error)) {
@@ -1400,6 +1415,12 @@ void HudMenuPlugin::LoadPhrases() {
 	m_phrases.LoadBuiltinFallback();
 	const std::string location = hudmenu::ToString(GetLocation());
 	std::vector<std::filesystem::path> candidates;
+	// The documented location (docs/PLUGIN_STANDARD.md): <configs>/hudmenu/translations/. The
+	// copies shipped next to the plugin stay as the fallback for existing installs.
+	if (plg::GetConfigsDir) {
+		candidates.push_back(std::filesystem::path(hudmenu::ToString(plg::GetConfigsDir())) / "hudmenu" /
+							 "translations" / "hudmenu.phrases.txt");
+	}
 	if (!location.empty()) {
 		const std::filesystem::path loc(location);
 		candidates.push_back(loc / "translations" / "hudmenu.phrases.txt");
@@ -1420,8 +1441,8 @@ void HudMenuPlugin::LoadPhrases() {
 		hudmenu::LogWarn("hudmenu: " + error + " - using the built-in phrases");
 		return;
 	}
-	hudmenu::LogWarn("hudmenu: translations/hudmenu.phrases.txt not found next to the plugin - using the built-in "
-					 "phrases");
+	hudmenu::LogWarn("hudmenu: translations/hudmenu.phrases.txt not found (configs/hudmenu/translations or next to "
+					 "the plugin) - using the built-in phrases");
 }
 
 void HudMenuPlugin::OnChooserMenu(s2sdk::MenuId id, s2sdk::MenuAction action, int32_t slot, int32_t param) {
@@ -1710,6 +1731,13 @@ void HudMenuPlugin::OnTestMenu(s2sdk::MenuId id, s2sdk::MenuAction action, int32
 
 s2sdk::ResultType HudMenuPlugin::OnTestCommand(int32_t caller, s2sdk::ConCommandContext context,
 											   const plg::vector<plg::string>& args) {
+	// Server console / RCON only (caller -1). The s2sdk chat path executes a registered console
+	// command by name without checking its flags, so "!hudmenu_test <slot>" would otherwise let any
+	// client open a menu on another player's slot (and interrupt the menu that player has open).
+	if (caller != -1) {
+		s2sdk::ReplyToCommand(context, caller, "hudmenu_test: available on the server console only");
+		return s2sdk::ResultType::Handled;
+	}
 	std::vector<std::string> argv = ToArgv(args);
 	if (!argv.empty() && argv.front() == "hudmenu_test") {
 		argv.erase(argv.begin());
@@ -1789,6 +1817,13 @@ s2sdk::ResultType HudMenuPlugin::OnTestCommand(int32_t caller, s2sdk::ConCommand
 
 s2sdk::ResultType HudMenuPlugin::OnStatusCommand(int32_t caller, s2sdk::ConCommandContext context,
 												 const plg::vector<plg::string>& args) {
+	// Server console / RCON only (caller -1), like the other status commands of the port: the
+	// s2sdk chat path executes a registered console command by name without checking its flags,
+	// and the output carries the per-slot steamids, menu-type choices and open menu ids.
+	if (caller != -1) {
+		s2sdk::ReplyToCommand(context, caller, "hudmenu_status: available on the server console only");
+		return s2sdk::ResultType::Handled;
+	}
 	(void)args;
 	const auto& hook = hudmenu::GlobalClickHook();
 	std::vector<std::string> lines;
